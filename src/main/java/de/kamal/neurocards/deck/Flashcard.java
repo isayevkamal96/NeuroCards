@@ -1,6 +1,8 @@
 package de.kamal.neurocards.deck;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "flashcards")
@@ -16,6 +18,7 @@ public class Flashcard {
     @Column(nullable = false)
     private String answer;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "deck_id", nullable = false)
     private Deck deck;

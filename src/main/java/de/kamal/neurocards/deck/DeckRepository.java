@@ -1,4 +1,7 @@
 package de.kamal.neurocards.deck;
 
-public interface DeckRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+
+public interface DeckRepository extends JpaRepository<Deck, Long> {
 }
