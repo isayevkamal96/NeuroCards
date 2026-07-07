@@ -12,6 +12,21 @@ public class DeckService {
         this.deckRepository = deckRepository;
     }
 
+    public Deck createDeckFromCards(String title, List<FlashcardData> cards) {
+        Deck deck = new Deck();
+        deck.setTitle(title);
+
+        for (FlashcardData data : cards) {
+            Flashcard card = new Flashcard();
+            card.setQuestion(data.question());
+            card.setAnswer(data.answer());
+            card.setDeck(deck);
+            deck.getFlashcards().add(card);
+        }
+
+        return deckRepository.save(deck);
+    }
+
     public Deck createDeck(String title) {
         Deck deck = new Deck();
         deck.setTitle(title);
