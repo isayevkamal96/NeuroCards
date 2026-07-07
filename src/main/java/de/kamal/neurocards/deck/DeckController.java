@@ -12,19 +12,23 @@ public class DeckController {
 
     private final DeckService deckService;
     private final PdfTextExtractor pdfTextExtractor;
+    private final FlashcardGenerator flashcardGenerator;
 
 
-    public DeckController(DeckService deckService, PdfTextExtractor pdfTextExtractor) {
+
+    public DeckController(DeckService deckService, PdfTextExtractor pdfTextExtractor, FlashcardGenerator flashcardGenerator) {
         this.deckService = deckService;
         this.pdfTextExtractor = pdfTextExtractor;
+        this.flashcardGenerator = flashcardGenerator;
 
     }
 
     @PostMapping("/upload")
-    public String uploadPdf(@RequestParam("file") MultipartFile file) throws IOException {
-        return pdfTextExtractor.extractText(file);
+    public Deck uploadPdf(@RequestParam("file") MultipartFile file, @RequestParam("title") String title) throws IOException {
+        String text = pdfTextExtractor.extractText(file);
+        List<FlashcardData> generatedCards = flashcardGenerator.generate(text);
+        return deckService.createDeckFromCards(title, generatedCards);
     }
-
     @PostMapping
     public Deck createDeck(@RequestBody CreateDeckRequest request) {
         return deckService.createDeck(request.title());
