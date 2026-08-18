@@ -36,5 +36,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Make mvnw executable
+        run: chmod +x mvnw
+
+
       - name: Build and Test
         run: ./mvnw verify
